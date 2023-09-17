@@ -125,7 +125,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Berlin'
 
 USE_I18N = True
 
@@ -191,12 +191,7 @@ SERVER_EMAIL
 EMAIL_ADMIN
 
 # Настройки для Celery
-CELERY_BEAT_SCHEDULE = {
-    'delete-inactive-users': {
-        'task': 'habits.tasks.create_task',  # Путь к задаче
-        'schedule': timedelta(days=1),  # Расписание выполнения задачи (например, каждые 10 минут)
-    },
-}
+CELERY_BEAT_SCHEDULE = {}
 
 CORS_ALLOWED_ORIGINS = [
     'https://example.com',  # Замените на адрес вашего фронтенд-сервера
@@ -210,4 +205,10 @@ CSRF_TRUSTED_ORIGINS = [
 
 CORS_ALLOW_ALL_ORIGINS = False
 
+
+# Чтение файла с переменными окружения
+dot_env = os.path.join(BASE_DIR, '.env')
+load_dotenv(dotenv_path=dot_env)
+
+# Использование переменных окружения
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
