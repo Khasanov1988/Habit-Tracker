@@ -6,7 +6,7 @@ from habits.models import Habit
 from habits.paginators import HabitPaginator
 from habits.permissions import IsOwnerOrStaff
 from habits.serializers import HabitSerializer
-from habits.tasks import create_task
+from habits.tasks import create_task, delete_task
 
 
 class HabitCreateAPIView(generics.CreateAPIView):
@@ -53,3 +53,7 @@ class HabitDestroyAPIView(generics.DestroyAPIView):
     """Habit delete endpoint"""
     queryset = Habit.objects.all()
     permission_classes = [IsOwnerOrStaff, IsAuthenticated]
+
+    def perform_destroy(self, instance):
+        delete_task.delay(instance.pk)
+        return super().perform_destroy(instance)

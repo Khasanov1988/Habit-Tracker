@@ -15,10 +15,12 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
-from config.settings_local import *
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Чтение файла с переменными окружения
+dot_env = os.path.join(BASE_DIR, '.env')
+load_dotenv(dotenv_path=dot_env)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -93,7 +95,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'coursework_7',
         'USER': 'postgres',
-        'PASSWORD': 'PGNWyG'
+        'PASSWORD': 'PGNWyG',
     }
 }
 
@@ -120,7 +122,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Berlin'
 
 USE_I18N = True
 
@@ -154,7 +156,7 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
-STRIPE_API_KEY = "sk_test_51NklEGGfWFLTXAJy5NBDSsBZSZT20UaycN50WcZfE2g9j73t8CWMVaCBaLkKHcwDmlKQ8Ih8S4gRBIvzJwz7UD9Z00UJDr1MuS"
+STRIPE_API_KEY = os.getenv('STRIPE_API_KEY')
 
 # Настройки для Celery
 
@@ -173,25 +175,20 @@ CELERY_TASK_TRACK_STARTED = True
 # Максимальное время на выполнение задачи
 CELERY_TASK_TIME_LIMIT = 30 * 60
 
-# Парамеры импортируемые из settings_local.py
-EMAIL_BACKEND
-EMAIL_HOST
-EMAIL_PORT
+# Парамеры импортируемые из .env
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
 
-EMAIL_HOST_USER
-EMAIL_HOST_PASSWORD
-EMAIL_USE_SSL
-DEFAULT_FROM_EMAIL
-SERVER_EMAIL
-EMAIL_ADMIN
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
+SERVER_EMAIL = os.getenv('SERVER_EMAIL')
+EMAIL_ADMIN = os.getenv('EMAIL_ADMIN')
 
 # Настройки для Celery
-CELERY_BEAT_SCHEDULE = {
-    'delete-inactive-users': {
-        'task': 'habits.tasks.create_task',  # Путь к задаче
-        'schedule': timedelta(days=1),  # Расписание выполнения задачи (например, каждые 10 минут)
-    },
-}
+CELERY_BEAT_SCHEDULE = {}
 
 CORS_ALLOWED_ORIGINS = [
     'https://example.com',  # Замените на адрес вашего фронтенд-сервера
@@ -205,4 +202,5 @@ CSRF_TRUSTED_ORIGINS = [
 
 CORS_ALLOW_ALL_ORIGINS = False
 
+# Использование переменных окружения
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')

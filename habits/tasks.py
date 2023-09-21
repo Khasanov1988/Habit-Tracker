@@ -1,17 +1,20 @@
+import pytz
 from celery import shared_task
 import json
 from datetime import datetime, timedelta, time as datetime_time
 
+from django.core.exceptions import ObjectDoesNotExist
+from django.utils import timezone
 from django_celery_beat.models import PeriodicTask, IntervalSchedule
 from habits.models import Habit
+from habits.services import send_telegram_message
 
 
 @shared_task
 def create_task(pk):
     """
-    Function create periodic task
+    Function creates periodic task
     """
-    print('Мы тут были')
     habit = Habit.objects.get(pk=pk)
     day_interval = habit.period
     time = habit.time  # Исправление опечатки в названии поля времени
@@ -39,7 +42,7 @@ def create_task(pk):
         interval=schedule,
         name=f'Sending message by Telegram to habit {pk}',
         task='habits.tasks.send_reminder',
-        args=json.dumps(['arg1', 'arg2']),
+        args=json.dumps([habit.owner.telegram_chat_id, str(habit)]),
         kwargs=json.dumps({
             'chat_id': habit.owner.telegram_chat_id,
             'text': habit.__str__()
@@ -50,5 +53,18 @@ def create_task(pk):
 
 
 @shared_task
-def send_reminder(chat_id, text, **kwargs):
-    pass
+def delete_task(pk):
+    """ Function deletes periodic task"""
+    try:
+        task = PeriodicTask.objects.get(name=f'Sending message by Telegram to habit {pk}')
+        task.delete()
+    except ObjectDoesNotExist:
+        print(f"Task with name 'Sending message by Telegram to habit {pk}' does not exist.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+
+@shared_task
+def send_reminder(*args, **kwargs):
+    """ Function sends reminder message"""
+    send_telegram_message(kwargs['chat_id'], kwargs['text'])
