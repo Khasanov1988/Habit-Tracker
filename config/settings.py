@@ -93,12 +93,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'coursework_7',
         'USER': 'postgres',
-        'PASSWORD': 'PGNWyG',
-        'HOST': 'localhost',
-        'PORT': '5432',
-        'OPTIONS': {
-            'sslmode': 'prefer',
-        },
+        'PASSWORD': 'PGNWyG'
     }
 }
 
@@ -203,7 +198,7 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://read-and-write.example.com",  #  Замените на адрес вашего фронтенд-сервера
+    "https://read-and-write.example.com",  # Замените на адрес вашего фронтенд-сервера
     '<http://localhost:8000>',
     # и добавьте адрес бэкенд-сервера
 ]
