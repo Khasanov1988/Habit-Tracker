@@ -95,7 +95,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'coursework_7',
         'USER': 'postgres',
-        'PASSWORD': 'PGNWyG',
+        'PASSWORD': 'mysecretpassword',
+        'HOST': 'db',
+        'PORT': '5432',
     }
 }
 
@@ -122,7 +124,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Europe/Berlin'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
@@ -161,13 +163,13 @@ STRIPE_API_KEY = os.getenv('STRIPE_API_KEY')
 # Настройки для Celery
 
 # URL-адрес брокера сообщений
-CELERY_BROKER_URL = 'redis://localhost:6379'  # Например, Redis, который по умолчанию работает на порту 6379
+CELERY_BROKER_URL = 'redis://redis:6379'  # Например, Redis, который по умолчанию работает на порту 6379
 
 # URL-адрес брокера результатов, также Redis
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://redis:6379'
 
 # Часовой пояс для работы Celery
-CELERY_TIMEZONE = "Europe/Berlin"
+CELERY_TIMEZONE = "UTC"
 
 # Флаг отслеживания выполнения задач
 CELERY_TASK_TRACK_STARTED = True
