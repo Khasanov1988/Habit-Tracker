@@ -6,7 +6,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def get_token(cls, user):
         token = super().get_token(user)
 
-        # Добавление пользовательских полей в токен
+        # Adding custom fields to the token
         token['username'] = user.username
         token['email'] = user.email
 

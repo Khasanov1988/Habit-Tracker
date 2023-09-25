@@ -1,5 +1,3 @@
-from rest_framework.response import Response
-
 from config.settings import TELEGRAM_BOT_TOKEN
 import requests
 

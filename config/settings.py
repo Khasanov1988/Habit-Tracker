@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+
 from datetime import timedelta
 from pathlib import Path
 
@@ -18,7 +19,7 @@ from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Чтение файла с переменными окружения
+# Read the environment variables file
 dot_env = os.path.join(BASE_DIR, '.env')
 load_dotenv(dotenv_path=dot_env)
 
@@ -142,7 +143,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User'
 
-# Настройки JWT-токенов
+# JWT Token settings
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -152,7 +153,7 @@ REST_FRAMEWORK = {
     # ],
 }
 
-# Настройки срока действия токенов
+# JWT Token expiration settings
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
@@ -160,24 +161,24 @@ SIMPLE_JWT = {
 
 STRIPE_API_KEY = os.getenv('STRIPE_API_KEY')
 
-# Настройки для Celery
+# Celery settings
 
-# URL-адрес брокера сообщений
-CELERY_BROKER_URL = 'redis://redis:6379'  # Например, Redis, который по умолчанию работает на порту 6379
+# Message broker URL
+CELERY_BROKER_URL = 'redis://redis:6379'
 
-# URL-адрес брокера результатов, также Redis
+# Result backend URL, also Redis
 CELERY_RESULT_BACKEND = 'redis://redis:6379'
 
-# Часовой пояс для работы Celery
+# Celery timezone
 CELERY_TIMEZONE = "UTC"
 
-# Флаг отслеживания выполнения задач
+# Task tracking flag
 CELERY_TASK_TRACK_STARTED = True
 
-# Максимальное время на выполнение задачи
+# Maximum time for task execution
 CELERY_TASK_TIME_LIMIT = 30 * 60
 
-# Парамеры импортируемые из .env
+# Parameters imported from .env
 EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
 EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_PORT = os.getenv('EMAIL_PORT')
@@ -189,20 +190,22 @@ DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
 SERVER_EMAIL = os.getenv('SERVER_EMAIL')
 EMAIL_ADMIN = os.getenv('EMAIL_ADMIN')
 
-# Настройки для Celery
+# Celery settings
 CELERY_BEAT_SCHEDULE = {}
 
 CORS_ALLOWED_ORIGINS = [
-    'https://example.com',  # Замените на адрес вашего фронтенд-сервера
+    'https://example.com',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://read-and-write.example.com",  # Замените на адрес вашего фронтенд-сервера
+    "https://read-and-write.example.com",
     '<http://localhost:8000>',
-    # и добавьте адрес бэкенд-сервера
 ]
 
 CORS_ALLOW_ALL_ORIGINS = False
 
-# Использование переменных окружения
+# Using environment variables
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
+
+CSU_USER_NAME = os.getenv('CSU_USER_NAME')
+CSU_USER_PASSWORD = os.getenv('CSU_USER_PASSWORD')
