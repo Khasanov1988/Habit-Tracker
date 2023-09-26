@@ -189,3 +189,7 @@ SSH-key
 SSH-key.pub
 git-token
 telegram-bot-token
+
+celerybeat-schedule.bak
+celerybeat-schedule.dat
+celerybeat-schedule.dir
